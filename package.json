@@ -2,6 +2,9 @@
   "name": "hjxz-ui",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -9,9 +12,6 @@
     "prepare": "husky install",
     "dev:preview": "pnpm --filter=preview dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.2",
     "@commitlint/cli": "^17.4.2",

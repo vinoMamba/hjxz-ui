@@ -2,11 +2,11 @@
   "name": "preview",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "dev": "vite"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+  }
 }
