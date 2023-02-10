@@ -13,6 +13,7 @@ importers:
       eslint: ^8.33.0
       husky: ^8.0.3
       lint-staged: ^13.1.1
+      rimraf: ^4.1.2
       tsup: ^6.6.0
       typescript: ^4.9.5
       vite: ^4.1.1
@@ -27,6 +28,7 @@ importers:
       eslint: 8.33.0
       husky: 8.0.3
       lint-staged: 13.1.1
+      rimraf: 4.1.2
       tsup: 6.6.0_typescript@4.9.5
       typescript: 4.9.5
       vite: 4.1.1
@@ -4023,6 +4025,12 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
+
+  /rimraf/4.1.2:
+    resolution: {integrity: sha512-BlIbgFryTbw3Dz6hyoWFhKk+unCcHMSkZGrTFVAx2WmttdBSonsdtRlwiuTbDqTKr+UlXIUqJVS4QT5tUzGENQ==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /rollup/3.15.0:
