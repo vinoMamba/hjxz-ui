@@ -1,3 +1,5 @@
-export default {
-  version: '0.0.0',
+import { Button } from './Button'
+
+export {
+  Button,
 }
