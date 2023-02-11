@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS({
+      rules: [
+        ['bg-blue-site', { background: '#badded' }],
+      ],
       presets: [
         presetUno(),
         presetAttributify(),
