@@ -1,3 +1,10 @@
 <template>
-  web site
+  <div text-center font-sans p4>
+    <div/>
+    <div text-green5 text-lg>
+      Hello UnoCSS + Vue
+    </div>
+    <div i-custom-icon />
+    <div i-custom-multi-line-attr />
+  </div>
 </template>
