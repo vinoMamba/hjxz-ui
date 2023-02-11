@@ -1,7 +1,6 @@
 .dtd-button {
-  height: 32px;
   min-width: 32px;
-  padding: 4px 12px;
+  padding: 6px 12px;
   display: inline-block;
   cursor: pointer;
   white-space: nowrap;
@@ -11,6 +10,7 @@
   user-select: none;
   border-radius: 5px;
   transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+
 
   &- {
     border: 1px solid #e0e2e4;
@@ -31,13 +31,12 @@
     color: white;
 
     &:hover {
-      background-color: #0075eb;
+      background-color: darken(#007fff, 5%);
     }
 
     &:active {
-      background-color: #006ad6;
+      background-color: darken(#007fff, 10%);
     }
-
   }
 
   &-danger {
@@ -45,20 +44,63 @@
     color: white;
 
     &:hover {
-      background-color: #eb4b17;
+      background-color: darken(#ff5219, 5%);
     }
 
     &:active {
-      background-color: #d64414;
+      background-color: darken(#ff5219, 10%);
     }
   }
 
   &-link {
     background-color: transparent;
-    color: #0075eb;
+    color: darken(#007fff, 5%);
 
     &:active {
-      color: #006ad6;
+      color: darken(#007fff, 10%);
     }
   }
+
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &-primary[disabled] {
+    &:hover {
+      background-color: darken(#007fff, 0%);
+    }
+
+    &:active {
+      background-color: darken(#007fff, 0%);
+    }
+  }
+
+  &-danger[disabled] {
+    &:hover {
+      background-color: darken(#ff5219, 0%);
+    }
+
+    &:active {
+      background-color: darken(#ff5219, 0%);
+    }
+  }
+
+  &-link[disabled] {
+    &:active {
+      color: darken(#007fff, 0%);
+    }
+  }
+
+  &- {
+    &:hover {
+      background-color: white;
+    }
+
+    &:active {
+      background-color: white;
+    }
+  }
+
 }

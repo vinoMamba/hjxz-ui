@@ -9,6 +9,10 @@ export const Button = defineComponent({
       type: String as PropType<'primary' | 'danger' | 'link'>,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { slots }) {
     const classes = computed(() => {
@@ -18,7 +22,7 @@ export const Button = defineComponent({
       ]
     })
     return () => (
-      <button class={classes.value}>
+      <button class={classes.value} disabled={props.disabled}>
         <span>
           {slots.default?.()}
         </span>
