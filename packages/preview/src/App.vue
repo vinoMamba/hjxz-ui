@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Button } from 'ui'
+import { DButton } from 'hjxz-design'
 </script>
 
 <template>
-  <h1>fuck</h1>
-  <Button />
+  <h1>hjxz-design</h1>
+  <DButton />
 </template>

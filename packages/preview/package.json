@@ -7,9 +7,11 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "ui": "workspace:*"
+    "hjxz-design": "workspace:*"
   }
 }

@@ -11,8 +11,7 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
     "dev:preview": "pnpm --filter=preview dev",
-    "dev:ui": "pnpm --filter=ui dev",
-    "build:ui": "pnpm --filter=ui build"
+    "build:ui": "pnpm --filter=hjxz-design build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.2",

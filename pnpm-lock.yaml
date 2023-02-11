@@ -38,9 +38,12 @@ importers:
 
   packages/preview:
     specifiers:
-      ui: workspace:*
+      hjxz-design: workspace:*
     dependencies:
-      ui: link:../ui
+      hjxz-design: link:../ui
+
+  packages/ui:
+    specifiers: {}
 
 packages:
 

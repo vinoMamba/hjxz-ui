@@ -1,14 +1,19 @@
 {
-  "name": "ui",
+  "name": "hjxz-design",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
+  "description": "Dingtalk Style UI library for hjxz",
+  "author": "vino <vino0908@outlook.com>",
   "license": "ISC",
   "keywords": [],
-  "main": "dist/lib/index.js",
-  "module": "dist/es/index.js",
-  "types": "dist/es/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ],
   "scripts": {
-    "build": "vite build -w"
+    "build": "rimraf dist && vite build"
   }
 }
