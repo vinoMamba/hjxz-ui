@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import { DButton } from 'hjxz-design'
+import { DButton, DModal } from 'hjxz-design'
+import { ref } from 'vue';
+const visible = ref(false)
 const handleClick = () => {
-  console.log('click')
+  visible.value = true
+}
+const ok = (e: MouseEvent) => {
+  console.log(e)
+  setTimeout(() => {
+    visible.value = false
+  }, 1000)
 }
 </script>
 
@@ -16,6 +24,11 @@ const handleClick = () => {
   <DButton disabled>Default Button</DButton>
   <DButton disabled type="danger">Danger Button</DButton>
   <DButton disabled type="link">Link Button</DButton>
+  <br>
+  <DButton @click="handleClick">toggle</DButton>
+  <DModal v-model:visible="visible" @ok="ok">
+    test
+  </DModal>
 </template>
 
 <style scoped>
