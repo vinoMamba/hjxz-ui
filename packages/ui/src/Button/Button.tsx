@@ -4,7 +4,11 @@ import './style'
 
 export const Button = defineComponent({
   name: 'DButton',
+  inheritAttrs: true,
   props: {
+    onClick: {
+      type: Function as PropType<(e: MouseEvent) => void>,
+    },
     type: {
       type: String as PropType<'primary' | 'danger' | 'link'>,
       default: '',
@@ -22,7 +26,7 @@ export const Button = defineComponent({
       ]
     })
     return () => (
-      <button class={classes.value} disabled={props.disabled}>
+      <button class={classes.value} disabled={props.disabled} onClick={props.onClick}>
         <span>
           {slots.default?.()}
         </span>
