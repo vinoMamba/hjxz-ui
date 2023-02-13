@@ -5,3 +5,9 @@
   box-sizing: border-box;
   font-size: 14px;
 }
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
