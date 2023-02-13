@@ -2,6 +2,7 @@ import type { PropType } from 'vue'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import type { UserItem } from '..'
 import './style'
+import { getListByCheckStatus, updateTreeCheckedStatus } from './uitls'
 import { UserTreeNav } from './UserTreeNav'
 
 export const UserTree = defineComponent({
@@ -22,12 +23,9 @@ export const UserTree = defineComponent({
     const leftData = ref<UserItem[]>([])
     const nodeClick = (item: UserItem) => {
       item.checked = !item.checked
-      if (item.checked) {
-        emit('update:checked', [...props.checked, item])
-      }
-      else {
-        emit('update:checked', props.checked.filter(i => i.id !== item.id))
-      }
+      updateTreeCheckedStatus(props.treeData, item, item.checked)
+      const checkedList = getListByCheckStatus(props.treeData, true)
+      emit('update:checked', checkedList)
     }
     const cancelChecked = (item: UserItem) => {
       emit('update:checked', props.checked.filter(i => i.id !== item.id))
@@ -70,7 +68,7 @@ export const UserTree = defineComponent({
               return (
               <li key={item.id}>
                 <div onClick={() => nodeClick(item)}>
-                  <input type="checkbox" checked={item.checked} />
+                    <input type="checkbox" checked={item.checked} indeterminate={ item.indeterminate} />
                   <span>{item.name}</span>
                 </div>
                 {item.type === 0

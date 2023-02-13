@@ -12,7 +12,6 @@ export interface UserItem {
   id: string
   name: string
   children?: UserItem[]
-  checked: boolean
   type: 0 | 1 // 0:部门 1:人员
   [key: string]: any
 }

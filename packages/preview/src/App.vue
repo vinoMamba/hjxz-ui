@@ -5,7 +5,10 @@ import { DButton, DModal, DUserTree } from '../../ui/src/index'
 import { treeData } from './user.data'
 
 const checked = ref<UserItem[]>([])
-const data = ref<UserItem[]>(treeData)
+const data = ref<UserItem[]>()
+setTimeout(() => {
+  data.value = treeData
+}, 3000)
 const visible = ref(false)
 const handleClick = () => {
   visible.value = true
