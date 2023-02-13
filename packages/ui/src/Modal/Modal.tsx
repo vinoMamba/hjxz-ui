@@ -8,7 +8,6 @@ export const Modal = defineComponent({
     visible: {
       type: Boolean,
       default: false,
-      required: true,
     },
     hideHeader: {
       type: Boolean,
