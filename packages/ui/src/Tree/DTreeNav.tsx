@@ -1,12 +1,12 @@
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
-import type { UserItem } from '..'
+import type { DNode } from '..'
 
-export const UserTreeNav = defineComponent({
-  name: 'DUserTreeNav',
+export const DTreeNav = defineComponent({
+  name: 'DTreeNav',
   props: {
     navList: {
-      type: Array as PropType<UserItem[]>,
+      type: Array as PropType<DNode[]>,
       default: () => [],
     },
   },
@@ -26,7 +26,7 @@ export const UserTreeNav = defineComponent({
           return (
             <>
               <i>&gt;</i>
-              <span onClick={() => handleClick(index)}>{ item.name}</span>
+              <span onClick={() => handleClick(index)}>{item.name}</span>
             </>
           )
         })}

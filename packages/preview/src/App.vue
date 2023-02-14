@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UserItem } from '../../ui/src/index'
-import { DButton, DModal, DUserTree } from '../../ui/src/index'
+import type { DNode } from '../../ui/src/index'
+import { DButton, DModal, DTree } from '../../ui/src/index'
 import { treeData } from './user.data'
 
-const checked = ref<UserItem[]>([])
-const data = ref<UserItem[]>()
+const checked = ref<DNode[]>([])
+const data = ref<DNode[]>()
 setTimeout(() => {
   data.value = treeData
 }, 3000)
@@ -32,7 +32,7 @@ const ok = (e: MouseEvent) => {
   </DButton>
   <DModal v-model:visible="visible" @ok="ok">
     <template #content>
-      <DUserTree v-model:checked="checked" :tree-data="data" />
+      <DTree v-model:checked="checked" :tree-data="data" />
     </template>
   </DModal>
 </template>

@@ -1,17 +1,13 @@
-import type { UserItem } from '../../ui/src'
+import type { DNode } from '../../ui/src'
 
-export const treeData: UserItem[] = [
+export const treeData: DNode[] = [
   {
     id: '0',
     name: '网钉',
-    checked: false,
-    indeterminate: false,
     children: [
       {
         id: '0-0',
         name: '网钉-1',
-        checked: false,
-        indeterminate: false,
         type: 0,
         children: [
           { id: '0-0-0', name: '网钉-1-1', type: 0 },
