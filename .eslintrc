@@ -3,5 +3,10 @@
   "rules": {
     "no-console": "off",
     "curly": "off"
-  }
+  },
+  "ignorePatterns": [
+    "lib",
+    "dist",
+    "es"
+  ]
 }

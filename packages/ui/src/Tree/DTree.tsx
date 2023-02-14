@@ -16,6 +16,14 @@ export const DTree = defineComponent({
       type: Array as PropType<DNode[]>,
       default: () => [],
     },
+    single: {
+      type: Boolean,
+      default: false,
+    },
+    mode: {
+      type: Number as PropType<0 | 1>, // 0: 选部门 1: 选人
+      default: 1,
+    },
   },
   emits: ['update:checked'],
   setup(props, { emit }) {
@@ -23,10 +31,19 @@ export const DTree = defineComponent({
     const leftData = ref<DNode[]>([])
 
     const nodeClick = (item: DNode, isCancel: boolean) => {
+      // 多选时，部门不可选
+      if (item.type === 0 && props.single) {
+        return
+      }
       item.checked = isCancel ? false : !item.checked
-      updateTreeStatus(props.treeData, item, item.checked)
-      const checkeds = getAllCheckedNodes(props.treeData)
-      emit('update:checked', checkeds)
+      if (props.single) {
+        // TODO: 单选时，取消其他选中
+      }
+      else {
+        updateTreeStatus(props.treeData, item, item.checked)
+        const checkeds = getAllCheckedNodes(props.treeData, props.mode)
+        emit('update:checked', checkeds)
+      }
     }
 
     const updateLeftData = (item: DNode) => {
@@ -55,8 +72,8 @@ export const DTree = defineComponent({
               ? leftData.value.map((item) => {
                 return (
                   <li key={item.id}>
-                    <div onClick={() => nodeClick(item, false)}>
-                      <input type="checkbox" checked={item.checked} indeterminate={item.indeterminate} />
+                    <div onClick={() => nodeClick(item, false)} >
+                      <input type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
                       <span>{item.name}</span>
                     </div>
                     {item.type === 0

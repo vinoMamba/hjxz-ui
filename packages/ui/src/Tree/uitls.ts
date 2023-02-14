@@ -1,18 +1,24 @@
 import type { DNode } from '..'
 
-export function getAllCheckedNodes(treeData: DNode[]): DNode[] {
+export function getAllCheckedNodes(treeData: DNode[], mode: 0 | 1): DNode[] {
   const result: DNode[] = []
   treeData.forEach((node) => {
-    if (node.checked && node.type === 1) {
+    if (node.checked && mode === node.type) {
       result.push(node)
     }
     if (node.children) {
-      result.push(...getAllCheckedNodes(node.children))
+      result.push(...getAllCheckedNodes(node.children, mode))
     }
   })
   return result
 }
 
+/**
+ *  更新树节点的选中状态(多选)
+ * @param treeData
+ * @param node
+ * @param checked
+ */
 export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolean) {
   const { children } = node
   if (children) {
@@ -29,6 +35,10 @@ export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolea
       parent.indeterminate = children!.some(child => child.checked) && !parent.checked
     })
   }
+}
+
+export function updateTreeStatusSingle(treeData: DNode[], node: DNode) {
+  // TODO
 }
 
 function getAllParents(list: DNode[], id: string): DNode[] | undefined {
