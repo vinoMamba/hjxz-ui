@@ -1,6 +1,7 @@
 import type { PropType } from 'vue'
 import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { DTreeNav } from './DTreeNav'
+import { getAllCheckedNodes, updateTreeStatus } from './uitls'
 import type { DNode } from '.'
 import './style'
 
@@ -20,11 +21,12 @@ export const DTree = defineComponent({
   setup(props, { emit }) {
     const navList = ref<DNode[]>([])
     const leftData = ref<DNode[]>([])
-    const nodeClick = (item: DNode) => {
-      item.checked = !item.checked
-    }
-    const cancelChecked = (item: DNode) => {
-      emit('update:checked', props.checked.filter(i => i.id !== item.id))
+
+    const nodeClick = (item: DNode, isCancel: boolean) => {
+      item.checked = isCancel ? false : !item.checked
+      updateTreeStatus(props.treeData, item, item.checked)
+      const checkeds = getAllCheckedNodes(props.treeData)
+      emit('update:checked', checkeds)
     }
 
     const updateLeftData = (item: DNode) => {
@@ -40,7 +42,6 @@ export const DTree = defineComponent({
         leftData.value = val[val.length - 1].children || []
       }
     })
-
     watchEffect(() => {
       leftData.value = props.treeData
     })
@@ -54,7 +55,7 @@ export const DTree = defineComponent({
               ? leftData.value.map((item) => {
                 return (
                   <li key={item.id}>
-                    <div onClick={() => nodeClick(item)}>
+                    <div onClick={() => nodeClick(item, false)}>
                       <input type="checkbox" checked={item.checked} indeterminate={item.indeterminate} />
                       <span>{item.name}</span>
                     </div>
@@ -70,7 +71,7 @@ export const DTree = defineComponent({
         <div class="dtd-d-tree-right">
           {props.checked.map((item) => {
             return (
-              <span onClick={() => cancelChecked(item)}>{item.name}</span>
+              <span onClick={() => nodeClick(item, true)}>{item.name}</span>
             )
           })}
         </div>
