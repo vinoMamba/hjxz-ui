@@ -1,6 +1,7 @@
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { DNode } from '..'
+import './style/treeNav.less'
 
 export const DTreeNav = defineComponent({
   name: 'DTreeNav',
@@ -25,7 +26,7 @@ export const DTreeNav = defineComponent({
         {props.navList.map((item, index) => {
           return (
             <>
-              <i>&gt;</i>
+              <i></i>
               <span onClick={() => handleClick(index)}>{item.name}</span>
             </>
           )

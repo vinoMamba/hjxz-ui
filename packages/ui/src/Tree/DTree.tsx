@@ -1,10 +1,10 @@
 import type { PropType } from 'vue'
 import { defineComponent, onMounted, ref, watch } from 'vue'
+import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
 import { getAllCheckedNodes, updateStatusByNode, updateTreeStatus } from './uitls'
 import type { DNode } from '.'
 import './style'
-
 export const DTree = defineComponent({
   name: 'DTree',
   props: {
@@ -37,6 +37,7 @@ export const DTree = defineComponent({
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
       emit('update:checked', checkeds)
     }
+
     const cancelClick = (item: DNode) => {
       updateStatusByNode(props.treeData, item, false)
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
@@ -56,12 +57,14 @@ export const DTree = defineComponent({
         leftData.value = val[val.length - 1].children || []
       }
     })
+
     onMounted(() => {
       props.checked.forEach((item) => {
         updateStatusByNode(props.treeData, item, true)
       })
       leftData.value = props.treeData
     })
+
     watch(() => props.treeData, () => {
       props.checked.forEach((item) => {
         updateStatusByNode(props.treeData, item, true)
@@ -78,8 +81,9 @@ export const DTree = defineComponent({
                 return (
                   <li key={item.id}>
                     <div onClick={() => nodeClick(item)} >
-                      {JSON.stringify(item.indeterminate)}
-                      <input type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
+                      <input value="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
+                      <label for="logo"></label>
+                      <img src={imgUrl} alt="" />
                       <span>{item.name}</span>
                     </div>
                     {item.type === 0
@@ -92,6 +96,7 @@ export const DTree = defineComponent({
           </ul>
         </div>
         <div class="dtd-d-tree-right">
+          <span>已选择：{props.checked.length ?? 0}</span>
           {props.checked.map((item) => {
             return (
               <span onClick={() => cancelClick(item)}>{item.name}</span>

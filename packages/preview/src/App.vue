@@ -30,9 +30,11 @@ const ok = (e: MouseEvent) => {
 
 <template>
   <h1>hjxz-design</h1>
-  checked: {{ checked }}
-  <hr>
-  data: {{ data }}
+  <input type="checkbox" checked />
+  <!-- checked: {{ checked }} -->
+  <!-- <hr> -->
+  <!-- data: {{ data }} -->
+  <DTree v-model:checked="checked" :tree-data="data" />
   <br>
   <DButton @click="handleClick">
     toggle

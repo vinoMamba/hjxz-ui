@@ -1,7 +1,9 @@
 .dtd-d-tree {
   &-wrapper {
+    padding: 8px;
     display: flex;
-    min-height: 30vh;
+    min-width: 30vw;
+    min-height: 40vh;
 
     ul {
       padding: 0;
@@ -20,19 +22,59 @@
     li {
       cursor: pointer;
       margin: 4px;
-      padding: 4px;
-      border: 1px solid red;
+      padding: 8px;
+      border-radius: 4px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+
+      &:hover {
+        background-color: #edeeef;
+      }
 
       >div {
         flex-grow: 1;
         display: flex;
         align-items: center;
 
+        >img {
+          margin-left: 4px;
+          width: 36px;
+          height: 36px;
+        }
+
         >span {
           margin-left: 4px;
+        }
+
+        >input[type="checkbox"] {
+          position: absolute;
+          clip: rect(0, 0, 0, 0)
+        }
+
+        >label::before {
+          content: '';
+          display: inline-block;
+          border: 1px solid #d3d6d9;
+          border-radius: 4px;
+          text-align: center;
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          background-color: white;
+          font-weight: bold;
+        }
+
+        >input[type="checkbox"]:checked+label::before {
+          content: '\2713';
+          color: white;
+          background-color: #007fff;
+        }
+
+        input[type="checkbox"]:indeterminate,
+        :indeterminate+label::before {
+          background: lighten(#007fff, 40%);
         }
       }
 
