@@ -1,7 +1,7 @@
 import type { PropType } from 'vue'
-import { defineComponent, ref, watch, watchEffect } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { DTreeNav } from './DTreeNav'
-import { getAllCheckedNodes, updateTreeStatus } from './uitls'
+import { getAllCheckedNodes, updateStatusByNode, updateTreeStatus } from './uitls'
 import type { DNode } from '.'
 import './style'
 
@@ -30,20 +30,17 @@ export const DTree = defineComponent({
     const navList = ref<DNode[]>([])
     const leftData = ref<DNode[]>([])
 
-    const nodeClick = (item: DNode, isCancel: boolean) => {
-      // 多选时，部门不可选
-      if (item.type === 0 && props.single) {
-        return
-      }
-      item.checked = isCancel ? false : !item.checked
-      if (props.single) {
-        // TODO: 单选时，取消其他选中
-      }
-      else {
-        updateTreeStatus(props.treeData, item, item.checked)
-        const checkeds = getAllCheckedNodes(props.treeData, props.mode)
-        emit('update:checked', checkeds)
-      }
+    const nodeClick = (item: DNode) => {
+      item.checked = !item.checked
+      item.indeterminate = item.checked ? false : item.indeterminate
+      updateTreeStatus(props.treeData, item, item.checked)
+      const checkeds = getAllCheckedNodes(props.treeData, props.mode)
+      emit('update:checked', checkeds)
+    }
+    const cancelClick = (item: DNode) => {
+      updateStatusByNode(props.treeData, item, false)
+      const checkeds = getAllCheckedNodes(props.treeData, props.mode)
+      emit('update:checked', checkeds)
     }
 
     const updateLeftData = (item: DNode) => {
@@ -59,10 +56,18 @@ export const DTree = defineComponent({
         leftData.value = val[val.length - 1].children || []
       }
     })
-    watchEffect(() => {
+    onMounted(() => {
+      props.checked.forEach((item) => {
+        updateStatusByNode(props.treeData, item, true)
+      })
       leftData.value = props.treeData
     })
-
+    watch(() => props.treeData, () => {
+      props.checked.forEach((item) => {
+        updateStatusByNode(props.treeData, item, true)
+      })
+      leftData.value = props.treeData
+    })
     return () => (
       <div class="dtd-d-tree-wrapper">
         <div class="dtd-d-tree-left">
@@ -72,7 +77,8 @@ export const DTree = defineComponent({
               ? leftData.value.map((item) => {
                 return (
                   <li key={item.id}>
-                    <div onClick={() => nodeClick(item, false)} >
+                    <div onClick={() => nodeClick(item)} >
+                      {JSON.stringify(item.indeterminate)}
                       <input type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
                       <span>{item.name}</span>
                     </div>
@@ -88,7 +94,7 @@ export const DTree = defineComponent({
         <div class="dtd-d-tree-right">
           {props.checked.map((item) => {
             return (
-              <span onClick={() => nodeClick(item, true)}>{item.name}</span>
+              <span onClick={() => cancelClick(item)}>{item.name}</span>
             )
           })}
         </div>

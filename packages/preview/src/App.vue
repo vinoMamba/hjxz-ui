@@ -4,7 +4,14 @@ import type { DNode } from '../../ui/src/index'
 import { DButton, DModal, DTree } from '../../ui/src/index'
 import { treeData } from './user.data'
 
-const checked = ref<DNode[]>([])
+const checked = ref<DNode[]>([
+  {
+    id: '0-0-3',
+    name: '人员-1-4',
+    type: 1,
+  },
+  { id: '0-7', name: '人员-4', type: 1 },
+])
 const data = ref<DNode[]>()
 setTimeout(() => {
   data.value = treeData

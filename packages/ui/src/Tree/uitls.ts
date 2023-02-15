@@ -20,17 +20,17 @@ export function getAllCheckedNodes(treeData: DNode[], mode: 0 | 1): DNode[] {
  * @param checked
  */
 export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolean) {
-  const { children } = node
+  const children = getAllChildren(node)
   if (children) {
     children.forEach((child) => {
       child.checked = checked
-      updateTreeStatus(treeData, child, checked)
+      child.indeterminate = checked ? false : child.indeterminate
     })
   }
   const parents = getAllParents(treeData, node.id)
   if (parents) {
     parents.forEach((parent) => {
-      const { children } = parent
+      const children = getAllChildren(parent)
       parent.checked = children!.every(child => child.checked)
       parent.indeterminate = children!.some(child => child.checked) && !parent.checked
     })
@@ -39,6 +39,20 @@ export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolea
 
 export function updateTreeStatusSingle(treeData: DNode[], node: DNode) {
   // TODO
+}
+
+function getAllChildren(node: DNode) {
+  const result: DNode[] = []
+  const dfs = (node: DNode) => {
+    if (node.children) {
+      node.children.forEach((child) => {
+        result.push(child)
+        dfs(child)
+      })
+    }
+  }
+  dfs(node)
+  return result
 }
 
 function getAllParents(list: DNode[], id: string): DNode[] | undefined {
@@ -52,5 +66,26 @@ function getAllParents(list: DNode[], id: string): DNode[] | undefined {
         return node.concat(list[i])
       }
     }
+  }
+}
+
+export function updateStatusByNode(treeData: DNode[], node: DNode, checked: boolean) {
+  let updateNode: DNode | undefined
+  const tree = treeData
+  const dfs = (treeData: DNode[], node: DNode, checked: boolean) => {
+    treeData.forEach((item) => {
+      if (item.id === node.id) {
+        item.checked = checked
+        item.indeterminate = false
+        updateNode = item
+      }
+      if (item.children) {
+        dfs(item.children, node, checked)
+      }
+    })
+  }
+  dfs(treeData, node, checked)
+  if (updateNode) {
+    updateTreeStatus(tree, updateNode, checked)
   }
 }
