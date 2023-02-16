@@ -1,9 +1,7 @@
 .dtd-d-tree {
   &-wrapper {
-    padding: 8px;
     display: flex;
-    min-width: 30vw;
-    min-height: 40vh;
+    border: 1px solid #e2e4e5;
 
     ul {
       padding: 0;
@@ -15,9 +13,23 @@
     }
   }
 
+  &-empty {
+    height: 40vh;
+    display: inline-block;
+    position: relative;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   &-left {
     width: 50%;
-    border: 1px solid red;
+    border-right: 1px solid #e2e4e5;
+
+    ul {
+      height: 40vh;
+      overflow: auto;
+    }
 
     li {
       cursor: pointer;
@@ -79,13 +91,50 @@
       }
 
       >span {
-        color: blue;
+        color: #007fff;
+        padding: 0 4px;
+        border-left: 1px solid #e2e4e5;
       }
     }
   }
 
   &-right {
     width: 50%;
-    border: 1px solid blue;
+
+    p {
+      padding: 8px;
+      margin: 0;
+    }
+
+    >ul {
+      max-height: 50vh;
+      overflow: auto;
+      display: flex;
+      flex-wrap: wrap;
+
+      >li {
+        margin: 4px;
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f7f7f8;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: darken(#f7f7f8, 2%);
+        }
+
+        >img {
+          width: 24px;
+          height: 24px;
+        }
+
+        >span {
+          margin-left: 4px;
+        }
+      }
+    }
   }
 }

@@ -75,9 +75,9 @@ export const DTree = defineComponent({
       <div class="dtd-d-tree-wrapper">
         <div class="dtd-d-tree-left">
           <DTreeNav v-model:navList={navList.value} />
-          <ul >
-            {leftData.value.length > 0
-              ? leftData.value.map((item) => {
+          {leftData.value.length > 0
+            ? <ul >{
+              leftData.value.map((item) => {
                 return (
                   <li key={item.id}>
                     <div onClick={() => nodeClick(item)} >
@@ -92,16 +92,21 @@ export const DTree = defineComponent({
                   </li>
                 )
               })
-              : <li>暂无数据</li>}
-          </ul>
+            }</ul>
+            : <div class="dtd-d-tree-empty">暂无数据</div>}
         </div>
         <div class="dtd-d-tree-right">
-          <span>已选择：{props.checked.length ?? 0}</span>
-          {props.checked.map((item) => {
-            return (
-              <span onClick={() => cancelClick(item)}>{item.name}</span>
-            )
-          })}
+          <p>已选择：{props.checked.length ?? 0}</p>
+          <ul>
+            {props.checked.map((item) => {
+              return (
+                <li>
+                  <img src={imgUrl} alt="" />
+                  <span onClick={() => cancelClick(item)}>{item.name}</span>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </div>
     )

@@ -41,13 +41,19 @@ const ok = (e: MouseEvent) => {
   </DButton>
   <DModal v-model:visible="visible" @ok="ok">
     <template #content>
-      <DTree v-model:checked="checked" :tree-data="data" />
+      <div class="wrapper">
+        <DTree v-model:checked="checked" :tree-data="data" />
+      </div>
     </template>
-  </DModal>
+</DModal>
 </template>
 
 <style scoped>
 .dtd-button {
   margin: 4px;
+}
+
+.wrapper {
+  width: 40vw;
 }
 </style>
