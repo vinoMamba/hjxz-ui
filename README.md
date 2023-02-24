@@ -1,6 +1,6 @@
 ## HJ-Design
 
-钉钉官方最近发布了一套围绕钉钉生态的 UI 组件库。但比较可惜目前只有(React 版本)[https://standard.dingtalk.com/#/]。
+钉钉官方最近发布了一套围绕钉钉生态的 UI 组件库。但比较可惜目前只有[React 版本](https://standard.dingtalk.com/#/)。
 
 由于公司使用的是 Vue，于是计划写一套基于 Vue3.0 的钉钉 UI 组件库。 目标是实现和钉钉官方组件样式功能相接近的组件库。同时结合公司的业务场景进行扩展。例如添加钉钉的选人组件等。
 
@@ -51,7 +51,7 @@ pnpm dev:preview
 
 ## TODO 
 
-1. 目前组件库中只有 Button,Modal,DTree 组件。大家有什么好的组件可以提出来，一起开发。
+1. 目前组件库中只有 Button,Modal,DTree 组件。大家有什么好的组件可以提出来，一起开发。参考[React 版本](https://standard.dingtalk.com/#/)。里面有的组件都可以考虑实现。
 2. 组件官方文档的搭建，目前正在开发中。开发目录在`site`中。
 
 
