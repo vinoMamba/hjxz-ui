@@ -1,10 +1,12 @@
 import type { PropType } from 'vue'
 import { defineComponent, onMounted, ref, watch } from 'vue'
+import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
 import { getAllCheckedNodes, updateStatusByNode, updateTreeStatus } from './uitls'
 import type { DNode } from '.'
 import './style'
+
 export const DTree = defineComponent({
   name: 'DTree',
   props: {
@@ -83,7 +85,7 @@ export const DTree = defineComponent({
                     <div onClick={() => nodeClick(item)} >
                       <input value="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
                       <label for="logo"></label>
-                      <img src={imgUrl} alt="" />
+                      <Avatar src={item.avatar ?? imgUrl} />
                       <span>{item.name}</span>
                     </div>
                     {item.type === 0
@@ -101,7 +103,7 @@ export const DTree = defineComponent({
             {props.checked.map((item) => {
               return (
                 <li>
-                  <img src={imgUrl} alt="" />
+                  <Avatar src={item.avatar ?? imgUrl} width={24} />
                   <span onClick={() => cancelClick(item)}>{item.name}</span>
                 </li>
               )
