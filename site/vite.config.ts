@@ -12,7 +12,14 @@ export default defineConfig({
     vue(),
     vueJsx(),
     UnoCSS({
-      shortcuts: [{ logo: 'i-logos-vue w-6em h-6em transform transition-800' }],
+      rules: [
+        ['nav-bgf', { 'backdrop-filter': 'blur(20px)' }],
+        ['nav-letter', { 'letter-spacing': '1px' }],
+        ['nav-bs', { 'box-shadow': '0 2px 4px rgb(0 0 0 / 12%)' }],
+      ],
+      shortcuts: [
+        { logo: 'i-logos-vue w-6em h-6em transform transition-800' },
+      ],
       presets: [
         presetUno(),
         presetAttributify(),

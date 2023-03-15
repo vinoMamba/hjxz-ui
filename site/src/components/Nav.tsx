@@ -6,7 +6,7 @@ export const SiteNav = defineComponent({
   name: 'SiteNav',
   setup() {
     return () => (
-      <header class='flex justify-between items-center h[72px] w-full position-fixed left-0 top-0 z-11 px-24 text-16'>
+      <header class='flex justify-between items-center h[72px] w-full position-fixed left-0 top-0 z-11 px-24 text-16 font-400 nav-bgf bg-transparent nav-letter nav-bs'>
         <RouterLink to='/home'>
           <div class='inline-flex items-center italic'>
             <img src={logoUrl} alt="" class='h[36px] mr-4' />
