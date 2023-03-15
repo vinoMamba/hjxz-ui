@@ -16,6 +16,13 @@ const DocRouter: RouteRecordRaw = {
   path: '/doc',
   name: 'Doc',
   component: Doc,
+  children: [
+    {
+      path: 'userTree',
+      name: 'UserTree',
+      component: () => import('../../page/TreeDemo.vue'),
+    },
+  ],
 }
 
 export const basicRoutes = [RootRouter, HomeRouter, DocRouter]
