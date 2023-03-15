@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 export const Doc = defineComponent({
   setup() {
     const componentList = ref([
-      { link: 'userTree', title: '按钮', enTitle: 'Button' },
+      { link: 'button', title: '按钮', enTitle: 'Button' },
     ])
     return () => (
       <div class='h-screen overflow-auto pt-72 flex'>
@@ -24,7 +24,7 @@ export const Doc = defineComponent({
             ))}
           </ul>
         </aside>
-        <main>
+        <main class='flex-1'>
           <RouterView />
         </main>
       </div>

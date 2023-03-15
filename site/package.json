@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "hjxz-design": "workspace:*",
+    "prismjs": "^1.29.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
