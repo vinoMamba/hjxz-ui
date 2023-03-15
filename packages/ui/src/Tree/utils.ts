@@ -89,3 +89,20 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
     updateTreeStatus(tree, updateNode, checked)
   }
 }
+
+export function updateDisabledByNode(treeData: DNode[], node: DNode, disabled: boolean) {
+  let updateNode: DNode | undefined
+  const tree = treeData
+  const dfs = (treeData: DNode[], node: DNode, disabled: boolean) => {
+    treeData.forEach((item) => {
+      if (item.id === node.id) {
+        item.disabled = disabled
+        updateNode = item
+      }
+      if (item.children) {
+        dfs(item.children, node, disabled)
+      }
+    })
+  }
+  dfs(treeData, node, disabled)
+}

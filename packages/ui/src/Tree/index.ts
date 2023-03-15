@@ -14,6 +14,7 @@ export interface DNode {
   children?: DNode[]
   type: 0 | 1 // 0:部门 1:人员
   checked?: boolean
+  disabled?: boolean
   indeterminate?: boolean
   [key: string]: any
 }

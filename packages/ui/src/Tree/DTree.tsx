@@ -3,7 +3,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue'
 import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
-import { getAllCheckedNodes, updateStatusByNode, updateTreeStatus } from './uitls'
+import { getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus } from './utils'
 import type { DNode } from '.'
 import './style'
 
@@ -15,6 +15,10 @@ export const DTree = defineComponent({
       default: () => [],
     },
     checked: {
+      type: Array as PropType<DNode[]>,
+      default: () => [],
+    },
+    disabled: {
       type: Array as PropType<DNode[]>,
       default: () => [],
     },
@@ -40,6 +44,9 @@ export const DTree = defineComponent({
     const leftData = ref<DNode[]>([])
 
     const nodeClick = (item: DNode) => {
+      if (item.disabled) {
+        return
+      }
       item.checked = !item.checked
       item.indeterminate = item.checked ? false : item.indeterminate
       updateTreeStatus(props.treeData, item, item.checked)
@@ -54,6 +61,9 @@ export const DTree = defineComponent({
     }
 
     const updateLeftData = (item: DNode) => {
+      if (item.disabled) {
+        return
+      }
       navList.value.push(item)
       leftData.value = navList.value[navList.value.length - 1].children || []
     }
@@ -71,12 +81,18 @@ export const DTree = defineComponent({
       props.checked.forEach((item) => {
         updateStatusByNode(props.treeData, item, true)
       })
+      props.disabled.forEach((item) => {
+        updateDisabledByNode(props.treeData, item, true)
+      })
       leftData.value = props.treeData
     })
 
     watch(() => props.treeData, () => {
       props.checked.forEach((item) => {
         updateStatusByNode(props.treeData, item, true)
+      })
+      props.disabled.forEach((item) => {
+        updateDisabledByNode(props.treeData, item, true)
       })
       leftData.value = props.treeData
     })
@@ -88,9 +104,9 @@ export const DTree = defineComponent({
             ? <ul >{
               leftData.value.map((item) => {
                 return (
-                  <li key={item.id}>
+                  <li key={item.id} class={item.disabled ? 'disabled' : ''}>
                     <div onClick={() => nodeClick(item)} >
-                      <input value="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
+                      <input name="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
                       <label for="logo"></label>
                       <Avatar src={item.avatar ?? imgUrl} />
                       <span>{item.name}</span>
@@ -110,9 +126,9 @@ export const DTree = defineComponent({
           }}>
             {props.checked.map((item) => {
               return (
-                <li style={props.block ? { width: '100%' } : {}}>
+                <li style={props.block ? { width: '100%' } : {}} onClick={() => cancelClick(item)}>
                   <Avatar src={item.avatar ?? imgUrl} width={24} />
-                  <span onClick={() => cancelClick(item)}>{item.name}</span>
+                  <span >{item.name}</span>
                 </li>
               )
             })}
