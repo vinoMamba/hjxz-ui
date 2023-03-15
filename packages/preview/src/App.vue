@@ -30,7 +30,7 @@ const ok = (e: MouseEvent) => {
 
 <template>
   <h1>hjxz-design</h1>
-  <input type="checkbox" checked />
+  <input type="checkbox" checked>
   <!-- checked: {{ checked }} -->
   <!-- <hr> -->
   <!-- data: {{ data }} -->
@@ -45,7 +45,7 @@ const ok = (e: MouseEvent) => {
         <DTree v-model:checked="checked" :tree-data="data" />
       </div>
     </template>
-</DModal>
+  </DModal>
 </template>
 
 <style scoped>

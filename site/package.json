@@ -12,9 +12,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "hjxz-design": "workspace:*"
+    "hjxz-design": "workspace:*",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
     "unocss": "^0.49.4",
     "vite": "^4.1.1"
   }
