@@ -3,7 +3,7 @@
  */
 import { readFileSync } from 'node:fs'
 
-export default function SourceCode() {
+export default function SourceCode(mode: 'build' | 'serve') {
   return {
     name: 'source-code',
     async transform(code: any, id: string) {
@@ -11,7 +11,12 @@ export default function SourceCode() {
         const sourceCode = JSON.stringify(readFileSync(id).toString())
         let genCode = code.split('export default')[0] || ''
         genCode += `_sfc_main.__sourceCode = ${sourceCode}\n`
-        genCode += 'export default /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]])'
+        if (mode === 'build') {
+          genCode += 'export default _sfc_main;'
+        }
+        else {
+          genCode += 'export default /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]])'
+        }
         return {
           code: genCode,
           map: null,

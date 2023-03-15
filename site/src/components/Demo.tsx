@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { Transition, defineComponent, h } from 'vue'
+import { Transition, defineComponent, h, onMounted, ref } from 'vue'
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
@@ -10,6 +10,27 @@ export interface DemoType {
 }
 
 const Prism = (window as any).Prism
+
+export const CodePer = defineComponent({
+  name: 'CodePer',
+  props: {
+    component: {
+      type: Object as PropType<any>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const html = ref('')
+    onMounted(() => {
+      html.value = Prism.highlight(props.component.__sourceCode, Prism.languages.html, 'html')
+    })
+    return () => (
+      <div class='overflow-auto px-8 py-16 border-t-dotted border-#d9d9d9 '>
+        <pre class='text-16' v-html={html.value}></pre>
+      </div>
+    )
+  },
+})
 
 export const Demo = defineComponent({
   name: 'Demo',
@@ -24,9 +45,10 @@ export const Demo = defineComponent({
     },
   },
   setup(props) {
-    const getHtml = (component: any) => {
-      return Prism.highlight(component.__sourceCode, Prism.languages.html, 'html')
-    }
+    const html = ref('')
+    // const getHtml = (component: any) => {
+    //   return Prism.highlight(component.__sourceCode, Prism.languages.html, 'html')
+    // }
     return () => (
       <>
         <h6 class='mb-16 text-24 font-600 italic text-#38687d hover:underline'>{props.title}</h6>
@@ -54,11 +76,7 @@ export const Demo = defineComponent({
             </div>
             <Transition name=''>
               {demo.codeVisible
-                ? (
-                  <div class='overflow-auto px-8 py-16 border-t-dotted border-#d9d9d9 '>
-                    <pre class='text-16' v-html={getHtml(demo.component)}></pre>
-                  </div>
-                  )
+                ? (<CodePer component={demo.component} />)
                 : null}
             </Transition>
           </div>
