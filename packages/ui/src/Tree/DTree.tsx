@@ -26,6 +26,13 @@ export const DTree = defineComponent({
       type: Number as PropType<0 | 1>, // 0: 选部门 1: 选人
       default: 1,
     },
+    /**
+     * 右侧列表是否块级元素
+     */
+    block: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:checked'],
   setup(props, { emit }) {
@@ -99,10 +106,11 @@ export const DTree = defineComponent({
         </div>
         <div class="dtd-d-tree-right">
           <p>已选择：{props.checked.length ?? 0}</p>
-          <ul>
+          <ul style={{
+          }}>
             {props.checked.map((item) => {
               return (
-                <li>
+                <li style={props.block ? { width: '100%' } : {}}>
                   <Avatar src={item.avatar ?? imgUrl} width={24} />
                   <span onClick={() => cancelClick(item)}>{item.name}</span>
                 </li>
