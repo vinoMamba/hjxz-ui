@@ -63,8 +63,6 @@ export const DTree = defineComponent({
 
     const checkALl = () => {
       all.value = !all.value
-      console.log(all.value)
-      console.log(leftData.value)
       leftData.value.forEach((item) => {
         if (item.disabled) {
           return
@@ -136,7 +134,7 @@ export const DTree = defineComponent({
             ? <ul >{
               leftData.value.map((item) => {
                 return (
-                  <li key={item.id} class={item.disabled ? 'disabled' : ''}>
+                  <li class={item.disabled ? 'disabled' : ''}>
                     <div onClick={() => nodeClick(item)} >
                       <input name="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
                       <label for="logo"></label>

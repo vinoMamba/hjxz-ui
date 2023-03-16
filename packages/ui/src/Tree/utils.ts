@@ -12,6 +12,7 @@ export function getAllCheckedNodes(treeData: DNode[], mode: 0 | 1): DNode[] {
   })
   return result
 }
+
 /**
  *  更新树节点的选中状态(多选)
  * @param treeData
@@ -73,7 +74,7 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
   const tree = treeData
   const dfs = (treeData: DNode[], node: DNode, checked: boolean) => {
     treeData.forEach((item) => {
-      if (item.id === node.id) {
+      if (item === node) {
         item.checked = checked
         item.indeterminate = false
         updateNode = item
@@ -115,7 +116,9 @@ export function createTree(apiData: DNode[]) {
   const map = new Map<string, DNode>()
   const tree: DNode[] = []
   apiData.forEach((item) => {
-    map.set(item.id, item)
+    if (item.type === 0) {
+      map.set(item.id, item)
+    }
   })
   apiData.forEach((item) => {
     const parent = map.get(item.parentId)
