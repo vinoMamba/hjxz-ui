@@ -12,7 +12,6 @@ export function getAllCheckedNodes(treeData: DNode[], mode: 0 | 1): DNode[] {
   })
   return result
 }
-
 /**
  *  更新树节点的选中状态(多选)
  * @param treeData

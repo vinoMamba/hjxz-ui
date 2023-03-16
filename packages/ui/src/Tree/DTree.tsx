@@ -46,6 +46,7 @@ export const DTree = defineComponent({
   setup(props, { emit }) {
     const navList = ref<DNode[]>([])
     const leftData = ref<DNode[]>([])
+    const all = ref(false)
 
     const nodeClick = (item: DNode) => {
       if (item.disabled) {
@@ -60,6 +61,23 @@ export const DTree = defineComponent({
       emit('update:checked', checkeds)
     }
 
+    const checkALl = () => {
+      all.value = !all.value
+      console.log(all.value)
+      console.log(leftData.value)
+      leftData.value.forEach((item) => {
+        if (item.disabled) {
+          return
+        }
+        item.checked = all.value
+        item.indeterminate = all.value ? false : item.indeterminate
+        if (!props.checkStrictly) {
+          updateTreeStatus(props.treeData, item, item.checked)
+        }
+        const checkeds = getAllCheckedNodes(props.treeData, props.mode)
+        emit('update:checked', checkeds)
+      })
+    }
     const cancelClick = (item: DNode) => {
       updateStatusByNode(props.treeData, item, false)
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
@@ -67,7 +85,7 @@ export const DTree = defineComponent({
     }
 
     const updateLeftData = (item: DNode) => {
-      if (item.disabled) {
+      if (item.disabled || all.value) {
         return
       }
       navList.value.push(item)
@@ -75,6 +93,7 @@ export const DTree = defineComponent({
     }
 
     watch(navList, (val) => {
+      all.value = false
       if (val.length === 0) {
         leftData.value = props.treeData
       }
@@ -106,6 +125,13 @@ export const DTree = defineComponent({
       <div class="dtd-d-tree-wrapper">
         <div class="dtd-d-tree-left">
           <DTreeNav v-model:navList={navList.value} />
+          {!props.single && (
+            <div class='dtd-d-tree-left-all' onClick={checkALl}>
+              <input name="all" type="checkbox" checked={all.value} />
+              <label for="all"></label>
+              <span>全选</span>
+            </div>
+          )}
           {leftData.value.length > 0
             ? <ul >{
               leftData.value.map((item) => {
@@ -118,7 +144,9 @@ export const DTree = defineComponent({
                       <span>{item.name}</span>
                     </div>
                     {item.type === 0
-                      ? <span onClick={() => updateLeftData(item)}>下级</span>
+                      ? <span onClick={() => updateLeftData(item)} style={{
+                        color: all.value ? '#ccc' : '#1890ff',
+                      }}>下级</span>
                       : null}
                   </li>
                 )
