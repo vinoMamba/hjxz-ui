@@ -5,6 +5,7 @@ export const Doc = defineComponent({
   setup() {
     const componentList = ref([
       { link: 'button', title: '按钮', enTitle: 'Button' },
+      { link: 'avatar', title: '头像', enTitle: 'Avatar' },
     ])
     return () => (
       <div class='h-screen overflow-auto pt-72 flex'>
