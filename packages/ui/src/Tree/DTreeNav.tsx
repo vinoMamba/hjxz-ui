@@ -1,7 +1,6 @@
 import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import type { DNode } from '..'
-import './style/treeNav.less'
 
 export const DTreeNav = defineComponent({
   name: 'DTreeNav',

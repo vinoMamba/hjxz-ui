@@ -4,6 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 export const Doc = defineComponent({
   setup() {
     const componentList = ref([
+      { link: 'tree', title: '组织架构组件', enTitle: 'Tree' },
       { link: 'button', title: '按钮', enTitle: 'Button' },
       { link: 'avatar', title: '头像', enTitle: 'Avatar' },
     ])

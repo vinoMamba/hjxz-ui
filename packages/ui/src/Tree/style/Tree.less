@@ -1,4 +1,37 @@
 .dtd-d-tree {
+  &-nav {
+    cursor: default;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 8px;
+    border-bottom: 1px solid #e2e4e5;
+
+    i {
+      display: inline-block;
+      width: .3em;
+      height: .3em;
+      border-right: 1px solid #757778;
+      border-top: 1px solid #757778;
+      transform: rotate(45deg);
+    }
+
+    span {
+      margin-left: 4px;
+      border-radius: 4px;
+      padding: 0 4px;
+      color: #757778;
+
+      &:hover {
+        background-color: #edeeef;
+      }
+
+      &:last-of-type {
+        color: #000;
+      }
+    }
+  }
+
   &-wrapper {
     display: flex;
     border: 1px solid #e2e4e5;
