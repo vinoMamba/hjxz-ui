@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
@@ -41,6 +41,10 @@ export const DTree = defineComponent({
       type: Boolean,
       default: false,
     },
+    maxChecked: {
+      type: Number,
+      default: -1,
+    },
   },
   emits: ['update:checked'],
   setup(props, { emit }) {
@@ -50,6 +54,10 @@ export const DTree = defineComponent({
 
     const nodeClick = (item: DNode) => {
       if (item.disabled) {
+        return
+      }
+      // 父子节点非受控情况下，选中的节点数不能超过maxChecked
+      if (props.checkStrictly && props.maxChecked !== -1 && (props.checked.length >= props.maxChecked) && !item.checked) {
         return
       }
       item.checked = !item.checked
@@ -99,18 +107,10 @@ export const DTree = defineComponent({
         leftData.value = val[val.length - 1].children || []
       }
     })
-
-    onMounted(() => {
-      props.checked.forEach((item) => {
-        updateStatusByNode(props.treeData, item, true)
-      })
-      props.disabled.forEach((item) => {
-        updateDisabledByNode(props.treeData, item, true)
-      })
-      leftData.value = props.treeData
-    })
-
     watch(() => props.treeData, () => {
+      if (!props.checkStrictly && props.maxChecked !== -1 && (props.checked.length > props.maxChecked)) {
+        throw new Error('父子节点非受控情况下，选中的节点数不能超过maxChecked')
+      }
       props.checked.forEach((item) => {
         updateStatusByNode(props.treeData, item, true)
       })
@@ -118,12 +118,14 @@ export const DTree = defineComponent({
         updateDisabledByNode(props.treeData, item, true)
       })
       leftData.value = props.treeData
+    }, {
+      immediate: true,
     })
     return () => (
       <div class="dtd-d-tree-wrapper">
         <div class="dtd-d-tree-left">
           <DTreeNav v-model:navList={navList.value} />
-          {!props.single && (
+          {(!props.single && props.maxChecked === -1) && (
             <div class='dtd-d-tree-left-all' onClick={checkALl}>
               <input name="all" type="checkbox" checked={all.value} />
               <label for="all"></label>
@@ -153,7 +155,12 @@ export const DTree = defineComponent({
             : <div class="dtd-d-tree-empty">暂无数据</div>}
         </div>
         <div class="dtd-d-tree-right">
-          <p>已选择：{props.checked.length ?? 0}</p>
+          <p>
+            已选择：{props.checked.length ?? 0}
+            {
+              (props.checkStrictly && props.maxChecked !== -1) ? ` （最多选择${props.maxChecked}个）` : ''
+            }
+          </p>
           <ul>
             {props.checked.map((item) => {
               return (
