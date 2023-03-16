@@ -106,3 +106,29 @@ export function updateDisabledByNode(treeData: DNode[], node: DNode, disabled: b
   }
   dfs(treeData, node, disabled)
 }
+
+/**
+ * 生成树
+ * @param apiData
+ * @returns
+ */
+export function createTree(apiData: DNode[]) {
+  const map = new Map<string, DNode>()
+  const tree: DNode[] = []
+  apiData.forEach((item) => {
+    map.set(item.id, item)
+  })
+  apiData.forEach((item) => {
+    const parent = map.get(item.parentId)
+    if (parent) {
+      if (!parent.children) {
+        parent.children = []
+      }
+      parent.children.unshift(item)
+    }
+    else {
+      tree.unshift(item)
+    }
+  })
+  return tree
+}

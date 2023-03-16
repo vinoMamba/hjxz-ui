@@ -35,7 +35,11 @@ export const DTree = defineComponent({
      */
     block: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    checkStrictly: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:checked'],
@@ -49,7 +53,9 @@ export const DTree = defineComponent({
       }
       item.checked = !item.checked
       item.indeterminate = item.checked ? false : item.indeterminate
-      updateTreeStatus(props.treeData, item, item.checked)
+      if (!props.checkStrictly) {
+        updateTreeStatus(props.treeData, item, item.checked)
+      }
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
       emit('update:checked', checkeds)
     }
@@ -122,8 +128,7 @@ export const DTree = defineComponent({
         </div>
         <div class="dtd-d-tree-right">
           <p>已选择：{props.checked.length ?? 0}</p>
-          <ul style={{
-          }}>
+          <ul>
             {props.checked.map((item) => {
               return (
                 <li style={props.block ? { width: '100%' } : {}} onClick={() => cancelClick(item)}>
