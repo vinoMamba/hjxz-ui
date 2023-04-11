@@ -3,7 +3,7 @@ import { defineComponent, ref, watch } from 'vue'
 import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
-import { getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus } from './utils'
+import { clearAllChecked, getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus } from './utils'
 import type { DNode } from '.'
 import './style'
 
@@ -53,6 +53,11 @@ export const DTree = defineComponent({
     const all = ref(false)
 
     const nodeClick = (item: DNode) => {
+      // 单选情况下，点击已选中的节点不做任何操作
+      if (props.single && item.type === 0) {
+        return
+      }
+      // 点击已禁用的节点不做任何操作
       if (item.disabled) {
         return
       }
@@ -60,9 +65,12 @@ export const DTree = defineComponent({
       if (props.checkStrictly && props.maxChecked !== -1 && (props.checked.length >= props.maxChecked) && !item.checked) {
         return
       }
+      if (props.single) {
+        clearAllChecked(props.treeData)
+      }
       item.checked = !item.checked
       item.indeterminate = item.checked ? false : item.indeterminate
-      if (!props.checkStrictly) {
+      if (!props.checkStrictly || !props.single) {
         updateTreeStatus(props.treeData, item, item.checked)
       }
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
@@ -138,7 +146,12 @@ export const DTree = defineComponent({
                 return (
                   <li class={item.disabled ? 'disabled' : ''}>
                     <div onClick={() => nodeClick(item)} >
-                      <input name="logo" type="checkbox" checked={item.checked} indeterminate={item.indeterminate} disabled={item.type === 0 && props.single} />
+                      <input
+                        name="logo"
+                        type="checkbox"
+                        checked={item.checked}
+                        indeterminate={item.indeterminate}
+                        />
                       <label for="logo"></label>
                       <Avatar src={item.avatar ?? imgUrl} />
                       <span>{item.name}</span>

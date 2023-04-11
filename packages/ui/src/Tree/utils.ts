@@ -36,6 +36,15 @@ export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolea
     })
   }
 }
+export function clearAllChecked(treeData: DNode[]) {
+  treeData.forEach((node) => {
+    node.checked = false
+    node.indeterminate = false
+    if (node.children) {
+      clearAllChecked(node.children)
+    }
+  })
+}
 
 export function updateTreeStatusSingle(treeData: DNode[], node: DNode) {
   // TODO

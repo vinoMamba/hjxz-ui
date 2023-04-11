@@ -31,10 +31,6 @@ const ok = (e: MouseEvent) => {
 <template>
   <h1>hjxz-design</h1>
   <input type="checkbox" checked>
-  <!-- checked: {{ checked }} -->
-  <!-- <hr> -->
-  <!-- data: {{ data }} -->
-  <DTree v-model:checked="checked" :tree-data="data" />
   <br>
   <DButton @click="handleClick">
     toggle
@@ -42,7 +38,7 @@ const ok = (e: MouseEvent) => {
   <DModal v-model:visible="visible" @ok="ok">
     <template #content>
       <div class="wrapper">
-        <DTree v-model:checked="checked" :tree-data="data" />
+        <DTree v-model:checked="checked" :tree-data="data" single />
       </div>
     </template>
   </DModal>

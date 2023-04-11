@@ -1,2 +1,2 @@
-import '../../base.css'
+import '../../base.less'
 import './modal.less'
