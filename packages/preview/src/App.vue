@@ -4,14 +4,7 @@ import type { DNode } from '../../ui/src/index'
 import { DButton, DModal, DTree } from '../../ui/src/index'
 import { treeData } from './user.data'
 
-const checked = ref<DNode[]>([
-  {
-    id: '0-0-3',
-    name: '人员-1-4',
-    type: 1,
-  },
-  { id: '0-7', name: '人员-4', type: 1 },
-])
+const checked = ref<DNode[]>([])
 const data = ref<DNode[]>()
 setTimeout(() => {
   data.value = treeData
@@ -38,7 +31,7 @@ const ok = (e: MouseEvent) => {
   <DModal v-model:visible="visible" @ok="ok">
     <template #content>
       <div class="wrapper">
-        <DTree v-model:checked="checked" :tree-data="data" single />
+        <DTree v-model:checked="checked" :mode="0" :tree-data="data"  check-strictly />
       </div>
     </template>
   </DModal>

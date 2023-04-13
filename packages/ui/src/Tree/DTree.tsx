@@ -54,7 +54,7 @@ export const DTree = defineComponent({
 
     const nodeClick = (item: DNode) => {
       // 单选情况下，点击已选中的节点不做任何操作
-      if (props.single && item.type === 0) {
+      if (props.single && item.type === 0 && props.mode === 1) {
         return
       }
       // 点击已禁用的节点不做任何操作
