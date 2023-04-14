@@ -36,6 +36,13 @@ export function updateTreeStatus(treeData: DNode[], node: DNode, checked: boolea
     })
   }
 }
+export function updateTreeStatusSingle(treeData: DNode[], node: DNode) {
+  clearAllChecked(treeData)
+  node.checked = true
+  const parents = getAllParents(treeData, node.id)
+  parents?.forEach(item => item.indeterminate = true)
+}
+
 export function clearAllChecked(treeData: DNode[]) {
   treeData.forEach((node) => {
     node.checked = false
@@ -44,10 +51,6 @@ export function clearAllChecked(treeData: DNode[]) {
       clearAllChecked(node.children)
     }
   })
-}
-
-export function updateTreeStatusSingle(treeData: DNode[], node: DNode) {
-  // TODO
 }
 
 function getAllChildren(node: DNode) {
@@ -83,7 +86,7 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
   const tree = treeData
   const dfs = (treeData: DNode[], node: DNode, checked: boolean) => {
     treeData.forEach((item) => {
-      if (item === node) {
+      if (item.id === node.id) {
         item.checked = checked
         item.indeterminate = false
         updateNode = item

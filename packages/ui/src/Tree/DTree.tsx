@@ -3,32 +3,37 @@ import { defineComponent, ref, watch } from 'vue'
 import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
-import { clearAllChecked, getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus } from './utils'
+import { clearAllChecked, getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus, updateTreeStatusSingle } from './utils'
 import type { DNode } from '.'
 import './style'
 
 export const DTree = defineComponent({
   name: 'DTree',
   props: {
+
     treeData: {
       type: Array as PropType<DNode[]>,
       default: () => [],
     },
+    // 多选的情况下，0：只选部门，1：之选人员
+    mode: {
+      type: Number as PropType<0 | 1>,
+      default: 1,
+    },
+
     checked: {
       type: Array as PropType<DNode[]>,
       default: () => [],
     },
+
     disabled: {
       type: Array as PropType<DNode[]>,
       default: () => [],
     },
+
     single: {
       type: Boolean,
       default: false,
-    },
-    mode: {
-      type: Number as PropType<0 | 1>, // 0: 选部门 1: 选人
-      default: 1,
     },
     /**
      * 右侧列表是否块级元素
@@ -37,13 +42,18 @@ export const DTree = defineComponent({
       type: Boolean,
       default: false,
     },
+
     checkStrictly: {
       type: Boolean,
       default: false,
     },
+
     maxChecked: {
       type: Number,
       default: -1,
+    },
+    nodeClickFn: {
+      type: Function as PropType<(item: DNode) => boolean>,
     },
   },
   emits: ['update:checked'],
@@ -52,9 +62,36 @@ export const DTree = defineComponent({
     const leftData = ref<DNode[]>([])
     const all = ref(false)
 
+    const nodeClick2 = (item: DNode) => {
+      // 暴露节点点击事件的函数，返回 true 继续，返回false 退出
+      if (props.nodeClickFn instanceof Function && !props.nodeClickFn(item)) {
+        return
+      }
+      if (item.disabled) {
+        return
+      }
+
+      // 如果是单选，则父子组件非受控,因此设置了 checkStrictly 将不生效
+      if (props.single) {
+        updateTreeStatusSingle(props.treeData, item)
+        emit('update:checked', [item])
+      }
+      else {
+        item.checked = !item.checked
+        item.indeterminate = item.checked ? false : item.indeterminate
+
+        // 受控情况下，会更新子节点的状态
+        if (!props.checkStrictly) {
+          updateTreeStatus(props.treeData, item, item.checked)
+        }
+        const checkeds = getAllCheckedNodes(props.treeData, props.mode)
+        emit('update:checked', checkeds)
+      }
+    }
+
     const nodeClick = (item: DNode) => {
       // 单选情况下，点击已选中的节点不做任何操作
-      if (props.single && item.type === 0 && props.mode === 1) {
+      if (props.single && item.type === 0) {
         return
       }
       // 点击已禁用的节点不做任何操作
@@ -145,7 +182,7 @@ export const DTree = defineComponent({
               leftData.value.map((item) => {
                 return (
                   <li class={item.disabled ? 'disabled' : ''}>
-                    <div onClick={() => nodeClick(item)} >
+                    <div onClick={() => nodeClick2(item)} >
                       <input
                         name="logo"
                         type="checkbox"
@@ -154,11 +191,12 @@ export const DTree = defineComponent({
                         />
                       <label for="logo"></label>
                       <Avatar style={{ marginLeft: '4px' }} src={item.avatar ?? imgUrl} alt={item.name}/>
-                      <span>{item.name}</span>
+                      <span style={{ whiteSpace: 'nowrap' }}>{item.name}</span>
                     </div>
                     {item.type === 0
                       ? <span onClick={() => updateLeftData(item)} style={{
                         color: all.value ? '#ccc' : '#1890ff',
+                        whiteSpace: 'nowrap',
                       }}>下级</span>
                       : null}
                   </li>
