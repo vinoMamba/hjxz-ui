@@ -117,17 +117,16 @@ export function updateDisabledByNode(treeData: DNode[], node: DNode, disabled: b
 }
 
 /**
- * 生成树
+ *  遍历数据，生成树结构
  * @param apiData
+ * @param sort 0 -> 往前unshift  1 -> 往后push
  * @returns
  */
-export function createTree(apiData: DNode[]) {
-  const map = new Map<string, DNode>()
-  const tree: DNode[] = []
+export function createTree(apiData: any[], key = 'id', sort = 0) {
+  const map = new Map<string, any>()
+  const tree: any[] = []
   apiData.forEach((item) => {
-    if (item.type === 0) {
-      map.set(item.id, item)
-    }
+    map.set(item[key], item)
   })
   apiData.forEach((item) => {
     const parent = map.get(item.parentId)
@@ -135,10 +134,10 @@ export function createTree(apiData: DNode[]) {
       if (!parent.children) {
         parent.children = []
       }
-      parent.children.unshift(item)
+      sort ? parent.children.push(item) : parent.children.unshift(item)
     }
     else {
-      tree.unshift(item)
+      sort ? tree.push(item) : tree.unshift(item)
     }
   })
   return tree

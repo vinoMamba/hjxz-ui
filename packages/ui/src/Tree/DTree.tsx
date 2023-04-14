@@ -153,7 +153,7 @@ export const DTree = defineComponent({
                         indeterminate={item.indeterminate}
                         />
                       <label for="logo"></label>
-                      <Avatar src={item.avatar ?? imgUrl} />
+                      <Avatar style={{ marginLeft: '4px' }} src={item.avatar ?? imgUrl} alt={item.name}/>
                       <span>{item.name}</span>
                     </div>
                     {item.type === 0
@@ -178,7 +178,7 @@ export const DTree = defineComponent({
             {props.checked.map((item) => {
               return (
                 <li style={props.block ? { width: '100%' } : {}} onClick={() => cancelClick(item)}>
-                  <Avatar src={item.avatar ?? imgUrl} width={24} />
+                  <Avatar src={item.avatar ?? imgUrl} width={24} alt={item.name} />
                   <span >{item.name}</span>
                 </li>
               )
