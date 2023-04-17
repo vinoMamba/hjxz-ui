@@ -86,7 +86,7 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
   const tree = treeData
   const dfs = (treeData: DNode[], node: DNode, checked: boolean) => {
     treeData.forEach((item) => {
-      if (item === node) {
+      if (item.id === node.id) {
         item.checked = checked
         item.indeterminate = false
         updateNode = item
