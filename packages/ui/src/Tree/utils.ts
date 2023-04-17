@@ -86,7 +86,7 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
   const tree = treeData
   const dfs = (treeData: DNode[], node: DNode, checked: boolean) => {
     treeData.forEach((item) => {
-      if (item.id === node.id) {
+      if (item === node) {
         item.checked = checked
         item.indeterminate = false
         updateNode = item
@@ -144,4 +144,16 @@ export function createTree(apiData: any[], key = 'id', sort = 0) {
     }
   })
   return tree
+}
+
+/**
+ *  遍历树
+ */
+export function traverseTree(treeData: DNode[], callback: (node: DNode) => void) {
+  treeData.forEach((node) => {
+    callback(node)
+    if (node.children) {
+      traverseTree(node.children, callback)
+    }
+  })
 }

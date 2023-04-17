@@ -3,14 +3,17 @@ import { defineComponent, ref, watch } from 'vue'
 import { Avatar } from '../Avatar/Avatar'
 import imgUrl from './images/dep.png'
 import { DTreeNav } from './DTreeNav'
-import { clearAllChecked, getAllCheckedNodes, updateDisabledByNode, updateStatusByNode, updateTreeStatus, updateTreeStatusSingle } from './utils'
+import { getAllCheckedNodes, traverseTree, updateDisabledByNode, updateStatusByNode, updateTreeStatus, updateTreeStatusSingle } from './utils'
 import type { DNode } from '.'
 import './style'
 
 export const DTree = defineComponent({
   name: 'DTree',
   props: {
-
+    searchValue: {
+      type: String as PropType<string>,
+      default: '',
+    },
     treeData: {
       type: Array as PropType<DNode[]>,
       default: () => [],
@@ -56,7 +59,7 @@ export const DTree = defineComponent({
       type: Function as PropType<(item: DNode) => boolean>,
     },
   },
-  emits: ['update:checked'],
+  emits: ['update:checked', 'update:searchValue'],
   setup(props, { emit }) {
     const navList = ref<DNode[]>([])
     const leftData = ref<DNode[]>([])
@@ -87,31 +90,6 @@ export const DTree = defineComponent({
         const checkeds = getAllCheckedNodes(props.treeData, props.mode)
         emit('update:checked', checkeds)
       }
-    }
-
-    const nodeClick = (item: DNode) => {
-      // 单选情况下，点击已选中的节点不做任何操作
-      if (props.single && item.type === 0) {
-        return
-      }
-      // 点击已禁用的节点不做任何操作
-      if (item.disabled) {
-        return
-      }
-      // 父子节点非受控情况下，选中的节点数不能超过maxChecked
-      if (props.checkStrictly && props.maxChecked !== -1 && (props.checked.length >= props.maxChecked) && !item.checked) {
-        return
-      }
-      if (props.single) {
-        clearAllChecked(props.treeData)
-      }
-      item.checked = !item.checked
-      item.indeterminate = item.checked ? false : item.indeterminate
-      if (!props.checkStrictly || !props.single) {
-        updateTreeStatus(props.treeData, item, item.checked)
-      }
-      const checkeds = getAllCheckedNodes(props.treeData, props.mode)
-      emit('update:checked', checkeds)
     }
 
     const checkALl = () => {
@@ -166,6 +144,19 @@ export const DTree = defineComponent({
     }, {
       immediate: true,
     })
+    watch(() => props.searchValue, (val) => {
+      if (val === '') {
+        leftData.value = props.treeData
+        return
+      }
+      const result: DNode[] = []
+      traverseTree(props.treeData, (item) => {
+        if (item.name.includes(val)) {
+          result.push(item)
+        }
+      })
+      leftData.value = result
+    })
     return () => (
       <div class="dtd-d-tree-wrapper">
         <div class="dtd-d-tree-left">
@@ -177,7 +168,7 @@ export const DTree = defineComponent({
               <span>全选</span>
             </div>
           )}
-          {leftData.value.length > 0
+          {(leftData.value.length > 0)
             ? <ul >{
               leftData.value.map((item) => {
                 return (
