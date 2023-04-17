@@ -7,6 +7,17 @@ import { getAllCheckedNodes, traverseTree, updateDisabledByNode, updateStatusByN
 import type { DNode } from '.'
 import './style'
 
+const CloseIcon = defineComponent({
+  name: 'CloseIcon',
+  setup() {
+    return () => (
+      <button class="dtd-d-tree-close-btn">
+        <span class="dtd-d-tree-close-icon"></span>
+      </button>
+    )
+  },
+})
+
 export const DTree = defineComponent({
   name: 'DTree',
   props: {
@@ -208,7 +219,8 @@ export const DTree = defineComponent({
               return (
                 <li style={props.block ? { width: '100%' } : {}} onClick={() => cancelClick(item)}>
                   <Avatar src={item.avatar ?? imgUrl} width={24} alt={item.name} />
-                  <span >{item.name}</span>
+                  <span style={{ marginRight: '4px' }} >{item.name}</span>
+                  <CloseIcon />
                 </li>
               )
             })}

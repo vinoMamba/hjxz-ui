@@ -174,4 +174,47 @@
       }
     }
   }
+
+  /* 设置关闭按钮为圆形 */
+  &-close-btn {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* 设置叉叉图标 */
+  &-close-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+  }
+
+  /* 绘制叉叉 */
+  &-close-icon:before,
+  &-close-icon:after {
+    content: "";
+    position: absolute;
+    top: 42%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+
+    height: 2px;
+    width: 100%;
+    background-color: white;
+  }
+
+  &-close-icon:before {
+    transform: rotate(45deg);
+  }
+
+  &-close-icon:after {
+    transform: rotate(-45deg);
+  }
 }
