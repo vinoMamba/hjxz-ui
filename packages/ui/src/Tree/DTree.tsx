@@ -99,7 +99,12 @@ export const DTree = defineComponent({
           updateTreeStatus(props.treeData, item, item.checked)
         }
         const checkeds = getAllCheckedNodes(props.treeData, props.mode)
-        emit('update:checked', checkeds)
+        const map = new Map()
+        checkeds.forEach((item) => {
+          map.set(item.id, item)
+        })
+        const newCheckeds = [...map.values()]
+        emit('update:checked', newCheckeds)
       }
     }
 
@@ -115,13 +120,23 @@ export const DTree = defineComponent({
           updateTreeStatus(props.treeData, item, item.checked)
         }
         const checkeds = getAllCheckedNodes(props.treeData, props.mode)
-        emit('update:checked', checkeds)
+        const map = new Map()
+        checkeds.forEach((item) => {
+          map.set(item.id, item)
+        })
+        const newCheckeds = [...map.values()]
+        emit('update:checked', newCheckeds)
       })
     }
     const cancelClick = (item: DNode) => {
       updateStatusByNode(props.treeData, item, false)
       const checkeds = getAllCheckedNodes(props.treeData, props.mode)
-      emit('update:checked', checkeds)
+      const map = new Map()
+      checkeds.forEach((item) => {
+        map.set(item.id, item)
+      })
+      const newCheckeds = [...map.values()]
+      emit('update:checked', newCheckeds)
     }
 
     const updateLeftData = (item: DNode) => {
@@ -160,11 +175,15 @@ export const DTree = defineComponent({
         leftData.value = props.treeData
         return
       }
+      const map = new Map()
       const result: DNode[] = []
       traverseTree(props.treeData, (item) => {
         if (item.name.includes(val)) {
-          result.push(item)
+          map.set(item.id, item)
         }
+      })
+      map.forEach((value) => {
+        result.push(value)
       })
       leftData.value = result
     })

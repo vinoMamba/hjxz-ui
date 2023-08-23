@@ -97,9 +97,6 @@ export function updateStatusByNode(treeData: DNode[], node: DNode, checked: bool
     })
   }
   dfs(treeData, node, checked)
-  if (updateNode) {
-    updateTreeStatus(tree, updateNode, checked)
-  }
 }
 
 export function updateDisabledByNode(treeData: DNode[], node: DNode, disabled: boolean) {
